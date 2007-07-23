@@ -10,6 +10,12 @@ module Rubaidh
           self.class.to_s.gsub(/Controller/, '').singularize.constantize.with_search_terms(params) do
             yield
           end
+        rescue NameError
+          # FIXME: This can not be the fastest implementation -- to try and
+          # get the resource class name and fail every time if it doesn't
+          # exist.  Maybe we need to eschew some elegance and have an acts
+          # method in each controller that's a resource-based controller.
+          yield
         end
       end
     end
