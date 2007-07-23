@@ -7,7 +7,8 @@ module Rubaidh
         end
 
         def process_search_terms
-          self.class.to_s.gsub(/Controller/, '').singularize.constantize.with_search_terms(params) do
+          model = self.class.to_s.gsub(/Controller/, '').singularize
+          model.constantize.with_search_terms(params[model.downcase]) do
             yield
           end
         rescue NameError
