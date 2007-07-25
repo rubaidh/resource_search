@@ -3,7 +3,7 @@ module Rubaidh
     module Model
       module ClassMethods
         def with_search_terms(params)
-          conditions = params.delete_if do |key, value|
+          conditions = params.blank? ? [] : params.delete_if do |key, value|
            !column_names.include?(key)
           end.collect do |key, value|
            ["LOWER(#{table_name}.#{key}) LIKE ?", "%#{value.downcase}%"]
