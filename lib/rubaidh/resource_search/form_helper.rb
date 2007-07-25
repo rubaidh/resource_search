@@ -45,6 +45,7 @@ module Rubaidh
           end
         end
         
+        private
         def name_from_name_or_array(name_or_array)
           case name_or_array
           when Array
