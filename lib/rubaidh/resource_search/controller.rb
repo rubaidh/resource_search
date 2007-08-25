@@ -15,7 +15,7 @@ module Rubaidh
       module InstanceMethods
         def process_search_terms
           model = self.class.to_s.gsub(/Controller/, '').singularize
-          model.constantize.with_search_terms(params[model.downcase]) do
+          model.constantize.with_search_terms(params[model.underscore]) do
             yield
           end
         end
