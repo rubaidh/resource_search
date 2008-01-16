@@ -1,18 +1,18 @@
 require 'rake'
-require 'rake/testtask'
 require 'rake/rdoctask'
+require 'spec/rake/spectask'
 
-desc 'Default: run unit tests.'
-task :default => :test
+desc 'Default: run specs.'
+task :default => :spec
 
-desc 'Test the resource_search plugin.'
-Rake::TestTask.new(:test) do |t|
+desc 'Run the specifications for the resource search plugin.'
+Spec::Rake::SpecTask.new(:spec) do |t|
   t.libs << 'lib'
-  t.pattern = 'test/**/*_test.rb'
+  t.spec_files = 'spec/**/*_spec.rb'
   t.verbose = true
 end
 
-desc 'Generate documentation for the resource_search plugin.'
+desc 'Generate documentation for the resource search plugin.'
 Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title    = 'ResourceSearch'
