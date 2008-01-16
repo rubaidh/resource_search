@@ -7,7 +7,6 @@ task :default => :spec
 
 desc 'Run the specifications for the resource search plugin.'
 Spec::Rake::SpecTask.new(:spec) do |t|
-  t.libs << 'lib'
   t.spec_files = 'spec/**/*_spec.rb'
   t.verbose = true
 end
