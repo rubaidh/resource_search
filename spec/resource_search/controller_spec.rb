@@ -25,6 +25,20 @@ describe FooController, "handling GET / (index)", :type => :controller do
     response.should be_success
   end
 
+  it "should have been extended with the acts method" do
+    controller.class.methods.include?("resource_search").should be_true
+  end
+
+  it "should have been extended with the class methods" do
+    controller.class.methods.include?("params_key").should be_true
+    controller.class.methods.include?("resource_model").should be_true
+  end
+
+  it "should have been extended with the instance methods" do
+    controller.private_methods.include?("params_key").should be_true
+    controller.private_methods.include?("resource_model").should be_true
+  end
+
   # FIXME: I'm not sure that asking private interfaces for their results
   # is a good idea, although it has helped the implementation to ensure
   # that works...
