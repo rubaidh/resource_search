@@ -33,4 +33,8 @@ describe CamelCaseController, "handling GET / (index)", :type => :controller do
     controller.send(:resource_model).should be(CamelCase)
   end
 
+  it "should be looking for params in the :camel_case hash" do
+    do_get
+    controller.send(:params_key).should == :camel_case
+  end
 end

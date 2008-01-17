@@ -35,4 +35,8 @@ describe Name::SpacedController, "handling GET / (index)", :type => :controller 
     controller.send(:resource_model).should be(Spaced)
   end
 
+  it "should be looking for params in the :spaced hash" do
+    do_get
+    controller.send(:params_key).should == :spaced
+  end
 end

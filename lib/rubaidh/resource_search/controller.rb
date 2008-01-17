@@ -21,16 +21,24 @@ module Rubaidh
         def resource_model
           "::#{name.demodulize.sub(/Controller$/,'')}".classify.constantize
         end
+        
+        def params_key
+          resource_model.to_s.underscore.to_sym
+        end
       end
 
       module InstanceMethods
         def process_search_terms(&block)
-          resource_model.with_search_terms(params[resource_model.to_s.underscore], &block)
+          resource_model.with_search_terms(params[params_key], &block)
         end
         
         private
         def resource_model
           self.class.resource_model
+        end
+
+        def params_key
+          self.class.params_key
         end
       end
     end

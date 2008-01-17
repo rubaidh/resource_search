@@ -33,4 +33,8 @@ describe FooController, "handling GET / (index)", :type => :controller do
     controller.send(:resource_model).should be(Foo)
   end
 
+  it "should be looking for params in the :foo hash" do
+    do_get
+    controller.send(:params_key).should == :foo
+  end
 end
