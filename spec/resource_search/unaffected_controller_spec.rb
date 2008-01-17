@@ -19,11 +19,6 @@ describe UnaffectedController, "handling GET / (index)", :type => :controller do
     get :index
   end
 
-  it "should succeed" do
-    do_get
-    response.should be_success
-  end
-
   it "should have been extended with the acts method" do
     controller.class.methods.include?("resource_search").should be_true
   end
@@ -36,5 +31,9 @@ describe UnaffectedController, "handling GET / (index)", :type => :controller do
   it "should not have been extended with the instance methods" do
     controller.private_methods.include?("params_key").should be_false
     controller.private_methods.include?("resource_model").should be_false
+  end
+
+  it "should not have process_search_terms in the around_filter chain" do
+    controller.class.filter_chain.map(&:filter).include?(:process_search_terms).should be_false
   end
 end
