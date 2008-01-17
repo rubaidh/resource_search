@@ -16,7 +16,8 @@ module Rubaidh
 
       module ClassMethods
         # FIXME: I'm not sure if this is the canonically correct way to get
-        # the name of the model based upon the controller's name.
+        # the name of the associated model based upon the controller's name.
+        # But it passes all of my tests so far.
         def resource_model
           "::#{name.demodulize.sub(/Controller$/,'')}".classify.constantize
         end
