@@ -1,13 +1,36 @@
-ResourceSearch
-==============
+Resource Search
+===============
 
-Introduction goes here.
-
+What's resource search all about? I started out by asking if there was a
+{convention for RESTful search in
+Rails}[http://woss.name/2007/07/22/convention-for-restful-search-in-rails/]
+and, well, nobody responded in the positive. I then took a look at how
+ActiveResource#find works for searching ActiveResource models. It turns out
+that we can take that as the 'convention' and build from there.
 
 Example
 =======
 
-Example goes here.
+A very quick example.
 
+    class ResourceController < ApplicationController
+      resource_search
+      
+      def index
+        # ...
+      end
+    end
+    
+    class Resource < ActiveRecord::Base
+    end
 
-Copyright (c) 2007 [name of plugin creator], released under the MIT license
+Now calling something along the lines of:
+
+    http://localhost/resources?title=foo
+
+will create a scope limiting whatever index searches for to items where
+'title' is (by default) LIKE '%foo%'.
+
+It will get better than that at some point, though, promise. :-)
+
+Copyright (c) 2008 Rubaidh Ltd, released under the MIT license
