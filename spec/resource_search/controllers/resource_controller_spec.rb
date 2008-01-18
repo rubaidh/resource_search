@@ -52,3 +52,21 @@ describe ResourceController, "checking that the resource search has been hooked 
     controller.class.included_actions.should == { @filter => ["index"] }
   end
 end
+
+# describe ResourceController, "checking that the appropriate scope is introduced on the resource model", :type => :controller do
+#   before(:each) do
+#     Resource.stub!(:find).and_return([])
+#   end
+# 
+#   def do_get
+#     get :index, :resource => { :title => "Hello", :category => "World" }
+#   end
+# 
+#   it "should call with_scope on the model" do
+#     Resource.should_receive(:with_scope).with(:find => { :conditions => ["title LIKE ? AND category LIKE ?", "Hello", "World"] } )
+#     do_get
+#   end
+# 
+#   it "should have a finder scope matching the params passed in" do
+#   end
+# end
