@@ -1,16 +1,16 @@
 require "#{File.dirname(__FILE__)}/../spec_helper"
 
-class FooController < ApplicationController
+class ResourceController < ApplicationController
   resource_search
   
   def index
   end
 end
 
-class Foo < ActiveRecord::Base
+class Resource < ActiveRecord::Base
 end
 
-describe FooController, "checking that the resource search has been included correctly", :type => :controller do
+describe ResourceController, "checking that the resource search has been included correctly", :type => :controller do
   it "should have been extended with the acts method" do
     controller.class.methods.include?("resource_search").should be_true
   end
@@ -26,34 +26,29 @@ describe FooController, "checking that the resource search has been included cor
   end
 end
 
-describe FooController, "checking the conversions between controller & resource name", :type => :controller do
+describe ResourceController, "checking the conversions between controller & resource name", :type => :controller do
   # FIXME: I'm not sure that asking private interfaces for their results
   # is a good idea, although it has helped the implementation to ensure
   # that works...
-  it "should attempt to search on the Foo model" do
-    controller.send(:resource_model).should be(Foo)
+  it "should attempt to search on the Resource model" do
+    controller.send(:resource_model).should be(Resource)
   end
 
-  it "should be looking for params in the :foo hash" do
-    controller.send(:params_key).should == :foo
+  it "should be looking for params in the :resource hash" do
+    controller.send(:params_key).should == :resource
   end
 end
 
-describe FooController, "checking that the resource search has been hooked into the filter chain", :type => :controller do
+describe ResourceController, "checking that the resource search has been hooked into the filter chain", :type => :controller do
   before(:each) do
-    Foo.stub!(:find).and_return([])
-  end
-
-  def do_get
-    get :index
-  end
-
-  it "should succeed" do
-    do_get
-    response.should be_success
+    @filter = controller.class.filter_chain.find { |fc| fc.filter == :process_search_terms }
   end
 
   it "should have process_search_terms in the around_filter chain" do
-    controller.class.filter_chain.map(&:filter).include?(:process_search_terms).should be_true
+    controller.class.filter_chain.include?(@filter).should be_true
+  end
+
+  it "should only have process_search_terms attached to the index action" do
+    controller.class.included_actions.should == { @filter => ["index"] }
   end
 end
